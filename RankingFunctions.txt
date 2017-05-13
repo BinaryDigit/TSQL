@@ -1,0 +1,9 @@
+---- RANK, DENSE_RANK, NTILE
+select * from (
+select LoginId, JobTitle, Gender
+, ROW_NUMBER() OVER (ORDER BY GENDER) AS RN
+, RANK() OVER (ORDER BY GENDER) AS R
+, DENSE_RANK() OVER (ORDER BY GENDER) AS DR
+, NTILE(15) OVER (ORDER BY GENDER) AS NTL
+ from HumanResources.Employee) as p
+ where p.R = 1
