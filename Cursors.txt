@@ -1,0 +1,31 @@
+-------- CURSORS --
+use AdventureWorks2016CTP3
+go
+
+
+DECLARE vend_cursor CURSOR SCROLL
+    FOR SELECT BusinessEntityID, CreditRating, [Name] 
+			FROM Purchasing.Vendor  
+
+OPEN vend_cursor  
+    DECLARE @BusinessEntityID int
+	DECLARE @CreditRating tinyint
+	DECLARE @Name varchar(50)
+	
+WHILE @@FETCH_STATUS = 0
+BEGIN
+
+	FETCH NEXT FROM vend_cursor into @BusinessEntityID, @CreditRating, @Name
+
+	Print CONVERT( varchar(50), @BusinessEntityID) + ' '+ CONVERT( varchar(50),@CreditRating) + ' ' + @Name
+	
+END 
+
+FETCH PRIOR FROM vend_cursor into @BusinessEntityID, @CreditRating, @Name
+	Print CONVERT( varchar(50), @BusinessEntityID) + ' '+ CONVERT( varchar(50),@CreditRating) + ' ' + @Name
+
+FETCH PRIOR FROM vend_cursor into @BusinessEntityID, @CreditRating, @Name
+	Print CONVERT( varchar(50), @BusinessEntityID) + ' '+ CONVERT( varchar(50),@CreditRating) + ' ' + @Name
+	
+CLOSE vend_cursor
+DEALLOCATE vend_cursor
